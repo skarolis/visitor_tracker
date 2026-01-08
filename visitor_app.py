@@ -317,6 +317,7 @@ if pateikta:
 
 # ---------- STATISTIKA ----------
 
+# ---------- STATISTIKA ----------
 st.header("📊 Lankytojų statistika")
 
 if len(df) > 0:
@@ -331,7 +332,6 @@ if len(df) > 0:
         df["bilieto_tipas"].mode().iloc[0] if df["bilieto_tipas"].notna().any() else "-"
     )
 
-    # Sumos pagal amžiaus kategorijas
     suma_iki_7 = int(df["iki_7"].sum())
     suma_7_19 = int(df["nuo_7_iki_19"].sum())
     suma_20_35 = int(df["nuo_20_iki_35"].sum())
@@ -351,36 +351,28 @@ if len(df) > 0:
     col_g1, col_g2 = st.columns(2)
     with col_g1:
         st.subheader("Pagal bilieto tipą (žmonių sk.)")
-        st.bar_chart(
-            df.groupby("bilieto_tipas")["lankytoju_sk"].sum()
-        )
-
+        st.bar_chart(df.groupby("bilieto_tipas")["lankytoju_sk"].sum())
     with col_g2:
         st.subheader("Pagal lankymosi priežastį (žmonių sk.)")
-        st.bar_chart(
-            df.groupby("priezastis")["lankytoju_sk"].sum()
-        )
+        st.bar_chart(df.groupby("priezastis")["lankytoju_sk"].sum())
 
     st.subheader("Amžiaus kategorijos (viso lankytojų)")
     amziaus_df = pd.DataFrame(
         {
-            "Amžiaus kategorija": [
-                "Iki 7 m.",
-                "7–19 m.",
-                "20–35 m.",
-                "36–60 m.",
-                "61+ m.",
-            ],
-            "Lankytojų skaičius": [
-                suma_iki_7,
-                suma_7_19,
-                suma_20_35,
-                suma_36_60,
-                suma_61,
-            ],
+            "Amžiaus kategorija": ["Iki 7 m.", "7–19 m.", "20–35 m.", "36–60 m.", "61+ m."],
+            "Lankytojų skaičius": [suma_iki_7, suma_7_19, suma_20_35, suma_36_60, suma_61],
         }
     ).set_index("Amžiaus kategorija")
-
     st.bar_chart(amziaus_df)
+
+    # ---- EKSPORTO MYGTUKAS (visada matomas, jei yra duomenų) ----
+    st.download_button(
+        label="⬇️ Atsisiųsti visus duomenis (CSV)",
+        data=df.to_csv(index=False).encode("utf-8"),
+        file_name="lankytojai.csv",
+        mime="text/csv",
+        use_container_width=True,
+    )
+
 else:
     st.info("Duomenų kol kas nėra. Įveskite naują įrašą viršuje, kad pradėtumėte.")
