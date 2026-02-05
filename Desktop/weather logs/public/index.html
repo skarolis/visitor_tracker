@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather Tracker</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <div>
+          <h1>Weather Tracker</h1>
+          <p class="sub">Daily weather logs stored locally in SQLite.</p>
+        </div>
+        <div class="actions">
+          <button id="newBtn" type="button">New log</button>
+        </div>
+      </header>
+
+      <section class="panel">
+        <div class="filters">
+          <div class="field">
+            <label for="from">From</label>
+            <input id="from" type="date" />
+          </div>
+          <div class="field">
+            <label for="to">To</label>
+            <input id="to" type="date" />
+          </div>
+          <div class="field grow">
+            <label>&nbsp;</label>
+            <div class="row">
+              <button id="refreshBtn" type="button">Refresh</button>
+              <button id="clearFiltersBtn" class="secondary" type="button">Clear</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="chartHeader">
+          <h2>Temperature (°C)</h2>
+          <div class="small" id="chartHint">Showing logs with a temperature value.</div>
+        </div>
+        <div class="chartWrap">
+          <canvas id="tempChart" height="90"></canvas>
+        </div>
+      </section>
+
+      <section class="grid">
+        <div class="panel">
+          <h2>Logs</h2>
+          <div id="list" class="list"></div>
+        </div>
+
+        <div class="panel">
+          <h2 id="formTitle">New log</h2>
+          <form id="form" class="form">
+            <input type="hidden" id="id" />
+
+            <div class="field">
+              <label for="log_date">Date</label>
+              <input id="log_date" type="date" required />
+            </div>
+
+            <div class="field">
+              <label for="location">Location</label>
+              <input id="location" type="text" placeholder="e.g. Warsaw" />
+            </div>
+
+            <div class="field">
+              <label for="temp_c">Temperature (°C)</label>
+              <input id="temp_c" type="number" step="0.1" placeholder="e.g. 12.5" />
+            </div>
+
+            <div class="field">
+              <label for="condition">Condition</label>
+              <input id="condition" type="text" placeholder="e.g. Sunny" />
+            </div>
+
+            <div class="field">
+              <label for="notes">Notes</label>
+              <textarea id="notes" rows="4" placeholder="Anything notable?"></textarea>
+            </div>
+
+            <div class="row">
+              <button id="saveBtn" type="submit">Save</button>
+              <button id="deleteBtn" class="danger" type="button">Delete</button>
+              <button id="resetBtn" class="secondary" type="button">Reset</button>
+            </div>
+
+            <div id="msg" class="msg" role="status"></div>
+          </form>
+        </div>
+      </section>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="/app.js"></script>
+  </body>
+</html>
